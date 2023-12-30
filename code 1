@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // A. Shuffle an array
+        int[] array = {1, 2, 3, 4, 5, 6, 7};
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int num : array) {
+            arrayList.add(num);
+        }
+        Collections.shuffle(arrayList);
+        System.out.println("Shuffled array: " + arrayList);
+
+        // B. Convert Roman Number to Integer
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a Roman Number: ");
+        String romanNumber = scanner.nextLine().toUpperCase();
+        int integerNumber = romanToInteger(romanNumber);
+        System.out.println("Equivalent integer: " + integerNumber);
+
+        // C. Check if the input is a pangram
+        System.out.print("Enter a sentence to check for pangram: ");
+        String sentence = scanner.nextLine().toLowerCase();
+        boolean isPangram = isPangram(sentence);
+        if (isPangram) {
+            System.out.println("The sentence is a pangram.");
+        } else {
+            System.out.println("The sentence is not a pangram.");
+        }
+    }
+
+   
+    public static int romanToInteger(String s) {
+        int result = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (i < s.length() - 1 && romanToInt(s.charAt(i)) < romanToInt(s.charAt(i + 1))) {
+                result -= romanToInt(s.charAt(i));
+            } else {
+                result += romanToInt(s.charAt(i));
+            }
+        }
+        return result;
+    }
+
+    public static int romanToInt(char c) {
+        switch (c) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
+        }
+    }
+
+
+    public static boolean isPangram(String sentence) {
+        boolean[] alphabet = new boolean[26];
+        for (char c : sentence.toCharArray()) {
+            if (Character.isLetter(c)) {
+                alphabet[c - 'a'] = true;
+            }
+        }
+        for (boolean letter : alphabet) {
+            if (!letter) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
